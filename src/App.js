@@ -1,88 +1,49 @@
-import React,{useState,useEffect} from "react";
+import React,{useEffect ,useRef} from 'react';
 import "./index.css";
-import cool from "./assets/cool.jpg";
-import cute from "./assets/cute.jpg";
-import pretty from "./assets/pretty.jpg";
-import car from "./assets/car.jpg";
+import { Card ,CardContent ,AppBar ,Toolbar ,IconButton} from "@material-ui/core"
+import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import CommuteIcon from '@material-ui/icons/Commute';
+import RoomIcon from '@material-ui/icons/Room';
 
-function App() {
-  
+function App(props) {
+           const mapid =useRef();
+          
+     useEffect(()=>{
+          const maps = mapid.current.id;
+           
+          var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+          mapboxgl.accessToken = 'pk.eyJ1IjoiaGlsbHMiLCJhIjoiY2tvOGNncDVxMjRwazJxbHlkbG55OXk5aCJ9.E9W-GsOb5UkqqF3pcGdutw';
+         
+            const map = new mapboxgl.Map({
+             container: maps,
+             style: 'mapbox://styles/mapbox/streets-v10',
+             center: [-73.985664, 40.748514],
+             zoom: 12,
+             pitch:30,
+           });
+           map.addControl(new mapboxgl.NavigationControl());
 
-  return (
-    <>
-        <main>
-            <div className="center">
-              <div className="dashboard">
-                <div className="profile">
-                    <img className="profile" src={pretty} alt="user profile"/>
-                    <h4>Dev Hills</h4>
-                    <p>Pro Gamer </p>
-                </div>
-                <div className='event'>
-                        <ul>
-                        <li><a href="#">Streams</a></li>
-                        <li><a href="#">Games</a></li>
-                        <li><a href="#">New</a></li>
-                        <li><a href="#">Library</a></li>
-                        </ul>
-                </div>
-                <div className="pro">
-                          <p>join pro for free games</p>
-                </div>
-              </div>
-              <div className="active-games">
-                <div className="search">
-                      <h3>Active games</h3>
-                      <input type="text" className="progress" />
-                </div>
-                
-                <div className="cards">
-                <div className="main">
-                       <img src={cute} className='game' alt="cute girl" />
-                       <div>
-                              <h3>Assasins Creed</h3>
-                              <p>ps5</p>
-                              <div className="progress0"  /> 
-                        </div>
-                        <div className="percentage">
-                          <p>40%</p>
-                        </div>    
-                    </div>
-                    <div className="main">
-                       <img  src={car} alt="a car" className='game'/>
-                       <div>
-                              <h3>Asphalt</h3>
-                              <p>ps5</p>
-                              <div className="progress1"/> 
-                        </div>
-                        <div className="percentage">
-                          <p>70%</p>
-                        </div>    
-                    </div>
-                    <div className="main">
-                       <img src={cool} alt="a guy on hoodie" className='game'/>
-                       <div>
-                              <h3>Sack boy</h3>
-                              <p>ps5</p>
-                              <div className="progress2" /> 
+            const directions = new MapboxDirections({
+              accessToken: mapboxgl.accessToken,
+            });
+            map.addControl(directions, 'top-left');
+            },[])
 
-                        </div>
-                        <div className="percentage">
-                          <p>90%</p>
-                        </div>  
-                    </div>  
-                </div>
-              </div>   
-            </div>
-        </main>       
-        <div className="first"></div>
-        <div className="second"></div>
-        <div className="third"></div>
-        <div className="forth"></div>
-        <div className="fifth"></div>
-        <div className="sixth"></div>
-    </>
-  );
+    return (
+        <div className='center'>
+            <AppBar>
+                <Toolbar>
+                     <IconButton><CommuteIcon color="secondary"/></IconButton>
+                     <p>Travel made easy </p>
+                     <IconButton><RoomIcon /></IconButton>
+                </Toolbar>
+            </AppBar>
+           <div>
+
+               <Card className='maps' ref={mapid} id="maps"></Card>
+           </div>
+        </div>
+    );
 }
 
 export default App;
