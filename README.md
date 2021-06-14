@@ -1,1 +1,1 @@
-This is an ecommerce site to be precise
+A project from a client from upwork
